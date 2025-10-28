@@ -318,7 +318,8 @@
                 <p class="text-gray-800 font-semibold mt-4 text-lg">
                     Como parte de nuestra <span class="text-[#0A1C3C]">experiencia premium</span>, un agente está listo para retomar tu compra y completarla por ti.
                 </p>
-                <button class="mt-6 w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-2 text-lg">
+                <!-- BOTÓN MODIFICADO: Añadido ID "btn-open-chat" -->
+                <button id="btn-open-chat" class="mt-6 w-full bg-green-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-300 flex items-center justify-center space-x-2 text-lg">
                     <i data-lucide="message-circle"></i>
                     <span>Continuar con un Agente</span>
                 </button>
@@ -389,6 +390,7 @@
         // Botones del Pop-up
         const btnClosePopup = document.getElementById('close-popup');
         const btnClosePopup2 = document.getElementById('close-popup-2');
+        const btnOpenChat = document.getElementById('btn-open-chat'); // <-- NUEVO: Botón para abrir chat
 
         // --- FUNCIONES PRINCIPALES ---
 
@@ -417,8 +419,7 @@
             chatPopupModal.classList.remove('hidden');
             chatPopupModal.classList.add('visible');
             
-            // Aquí es donde también podrías disparar el snippet de Genesys
-            // Ejemplo: Genesys('command', 'WebChat.open');
+            // NO abrimos el chat aquí, esperamos al clic del botón
         }
 
         // Cierra el modal de Pop-up
@@ -512,6 +513,20 @@
         });
 
 
+        // --- NUEVO: LÓGICA DEL CHAT PROACTIVO ---
+        btnOpenChat.addEventListener('click', () => {
+            // 1. Cierra el modal
+            closePopup();
+            
+            // 2. Abre el widget de chat de Genesys
+            if (typeof Genesys === 'function') {
+                Genesys('command', 'WebChat.open');
+            } else {
+                console.error("El snippet de Genesys no está disponible.");
+            }
+        });
+
+
         // --- CERRAR EL POP-UP (Modal) ---
         btnClosePopup.addEventListener('click', closePopup);
         btnClosePopup2.addEventListener('click', closePopup);
@@ -547,10 +562,15 @@
     ==================================================================
     -->
 
+    <!-- NUEVO: Ocultar el botón de chat de Genesys por defecto -->
+    <script type="text/javascript">
+      // Oculta la burbuja de chat tan pronto como se carga
+      // Solo se mostrará cuando se llame a 'WebChat.open'
+      if (typeof Genesys === 'function') {
+        Genesys('command', 'WebChat.hide');
+      }
+    </script>
+
 </body>
 </html>
-
-
-
-
 
