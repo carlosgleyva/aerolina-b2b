@@ -564,11 +564,13 @@
 
     <!-- NUEVO: Ocultar el botón de chat de Genesys por defecto -->
     <script type="text/javascript">
-      // Oculta la burbuja de chat tan pronto como se carga
-      // Solo se mostrará cuando se llame a 'WebChat.open'
-      if (typeof Genesys === 'function') {
+      // No podemos ejecutar 'hide' directamente,
+      // debemos esperar a que el chat esté listo.
+      // Nos "subscribimos" al evento 'WebChat.ready'.
+      Genesys('subscribe', 'WebChat.ready', function() {
+        // Una vez que el chat está listo, AHORA SÍ lo ocultamos.
         Genesys('command', 'WebChat.hide');
-      }
+      });
     </script>
 
 </body>
