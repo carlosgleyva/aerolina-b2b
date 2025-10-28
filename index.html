@@ -336,7 +336,7 @@
             <p class="text-xs">
                 <strong>DISCLAIMER:</strong> Esta es una simulación de página web creada únicamente con fines demostrativos para la plataforma Genesys Cloud.
                 No es un sitio web funcional y no está afiliado, asociado ni respaldado por ninguna aerolínea real.
-            </p>
+            </á>
         </div>
     </footer>
 
@@ -448,8 +448,7 @@
             }
         }
 
-        // --- LÓGICA DE NAVEGACIÓN Y EVENTOS ---
-
+        // --- LÓGICA DE NAVEGA
         // Iniciar Sesión
         btnLogin.addEventListener('click', handleLogin);
 
@@ -542,7 +541,7 @@
     El siguiente es el que tú proporcionaste:
     ==================================================================
     -->
-    <script type="text/javascript" charset="utf-8">
+    <script type"text/javascript" charset="utf-8">
       (function (g, e, n, es, ys) {
         g['_genesysJs'] = e;
         g[e] = g[e] || function () {
@@ -550,6 +549,15 @@
         };
         g[e].t = 1 * new Date();
         g[e].c = es;
+
+        // --- MODIFICACIÓN: Añadir la subscripción A LA COLA ---
+        // Hacemos esto ANTES de cargar el script,
+        // para asegurarnos de que esté en la cola (queue).
+        g[e]('subscribe', 'WebChat.ready', function() {
+            g[e]('command', 'WebChat.hide');
+        });
+        // --- FIN MODIFICACIÓN ---
+
         ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
       })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
         environment: 'prod',
@@ -562,7 +570,7 @@
     ==================================================================
     -->
 
-    <!-- NUEVO: Ocultar el botón de chat de Genesys por defecto -->
+    <!-- EL SIGUIENTE BLOQUE YA NO ES NECESARIO, SE MOVIÓ ARRIBA
     <script type="text/javascript">
       // No podemos ejecutar 'hide' directamente,
       // debemos esperar a que el chat esté listo.
@@ -572,6 +580,7 @@
         Genesys('command', 'WebChat.hide');
       });
     </script>
+    -->
 
 </body>
 </html>
